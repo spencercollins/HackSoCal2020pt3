@@ -1,0 +1,97 @@
+<html>
+  <head>
+    <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-firestore.js"></script>
+    <link rel="stylesheet" href="Style For Sign In and Out.css">
+  </head>
+  <body>
+    <link href="Style For Sign In and Out.css" rel="stylesheet" type="text/css">
+    <header>
+      <a href="Homepage.html"><img src="Evntful1.png" height=100px alt="logo" ></a>
+    </header>
+    <div>
+      <h2>Create an Account</h2>
+      <p>
+        Email Address:
+        <input id="email-address" type="email" />
+      </p>
+      <p>
+        First Name:
+        <input id="first-name" type="userName" />
+      </p>
+      <p>
+        Password:
+        <input id="password" type="password" />
+      </p>
+      <p>
+        <center>
+          <button onclick="signUp();">Sign Up</button>
+        </center>
+      </p>
+      <p>
+        <center>
+          <button onclick="goToHomepage();" class="hidden" id="go-to-button">Go To Homepage</button>
+        </center>
+      </p>
+    </div>
+  </body>
+  <script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyB_Jel93p7tJz9Ay4LUKWf0lPhbu3cwwRI",
+    authDomain: "e-vent-4c051.firebaseapp.com",
+    databaseURL: "https://e-vent-4c051.firebaseio.com",
+    projectId: "e-vent-4c051",
+    storageBucket: "e-vent-4c051.appspot.com",
+    messagingSenderId: "336176879404",
+    appId: "1:336176879404:web:4b3080f52f9adb4d0f7e89"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  // firebase.analytics();
+
+  firebase.auth().onAuthStateChanged(function (test) {
+    let user = firebase.auth().currentUser;
+    console.log(firebase.auth().currentUser);
+  });
+
+  firebase.auth().onAuthStateChanged(function (user) {
+          if (user) {
+            document.getElementById('go-to-button').className = '';
+          } else {
+            document.getElementById('go-to-button').className = 'hidden';
+          }
+      });
+
+  function goToHomepage() {
+    window.location.href = './Homepage.html';
+  }
+
+  function signUp() {
+    let email = document.getElementById('email-address').value;
+    let password = document.getElementById('password').value;
+
+    console.log(email, password)
+    firebase.auth().createUserWithEmailAndPassword(email, password).then(function (user) {
+      uploadName(user.user.uid);
+    });
+  }
+
+  function uploadName(uid){
+      let element = document.getElementById('first-name');
+      firebase.firestore().collection('users').doc(uid).set({
+        name: element.value
+      });
+    }
+  firebase.auth().onAuthStateChanged(function (user) {
+      console.log('Homepage', user)
+        if (user) {
+          document.getElementById('go-to-button').className = '';
+        } else {
+          document.getElementById('go-to-button').className = 'hidden';
+        }
+    });
+
+
+  </script>
+</html>

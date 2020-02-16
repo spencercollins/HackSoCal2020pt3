@@ -1,0 +1,96 @@
+<html>
+  <head>
+    <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-firestore.js"></script>
+  </head>
+  <link href="Style For Invite People.css" rel="stylesheet" type="text/css">
+  <body>
+    <header>
+      <a href="Homepage.html"><img src="Evntful1.png" height=100px align="left" alt="logo"></a>
+      <h2> Invite Your Friends!</h2>
+    </header>
+    <div>
+      <p>
+        <h3>Choose your party goers to invite:</h3>
+      </p>
+      <select id = "parties">
+      </select>
+      <link href="Style For Invite People.css" rel="stylesheet" type="text/css">
+      <p>
+
+        <input id="invitee" type="invitedUser" />
+      </p>
+      <p>
+        <button onclick = "submit(); document.getElementById('invitee').value = ''">Submit</button>
+      </p>
+      <p id ="listInvitees">
+        Invited Users<br>
+      </p>
+      <p>
+        <button onclick = "sendInvites()">Send Invites</button>
+      </p>
+    </div>
+  </body>
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyB_Jel93p7tJz9Ay4LUKWf0lPhbu3cwwRI",
+      authDomain: "e-vent-4c051.firebaseapp.com",
+      databaseURL: "https://e-vent-4c051.firebaseio.com",
+      projectId: "e-vent-4c051",
+      storageBucket: "e-vent-4c051.appspot.com",
+      messagingSenderId: "336176879404",
+      appId: "1:336176879404:web:4b3080f52f9adb4d0f7e89"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    firebase.auth().onAuthStateChanged(function (test) {
+      let user = firebase.auth().currentUser;
+      firebase.firestore().collection('users').doc(user.uid).collection('parties').get().then((snapshot) => {
+        let temp = ' ';
+        snapshot.forEach(function (doc) {
+          temp += '<option value="' + doc.id + '">' + doc.id + '</option>';
+          console.log(temp);
+          });
+          document.getElementById('parties').innerHTML = temp;
+        });
+        });
+    let invitedUsers = new Array();
+    function submit() {
+      document.getElementById("listInvitees").innerHTML = document.getElementById("listInvitees").innerHTML  + "<br>"+ document.getElementById("invitee").value;
+      invitedUsers.push(document.getElementById("invitee").value);
+      console.log(invitedUsers[0]);
+    }
+    function sendInvites(){
+      document.getElementById("listInvitees").innerHTML = "Invited Users <br>";
+      //send Array Contents to Invitees
+
+            firebase.auth().onAuthStateChanged(function (test) {
+                  let user = firebase.auth().currentUser;
+                  console.log(user);
+              });
+                user = firebase.auth().currentUser;
+                console.log(user);
+                partyhere = document.getElementById("parties").value;
+
+                firebase.firestore().collection('users').doc(user.uid).collection('parties').doc(partyhere).update({
+                  InvitedGuests: invitedUsers
+                });
+
+            firebase.firestore().collection('users').doc(user.uid).collection('parties').doc(document.getElementById("parties").value).get().then((snapshot) => {
+                //let temp = ' ';
+              var data = snapshot.data();
+               var attendees = data.InvitedGuests;
+               attendees.forEach(function(email){
+                    //This is where email implimentation would take place However email is a paid service to establish
+                    // to mitigate this we have left everything upto the place where we would send the email, this loop
+                    // which could send several emails running through each invited guest, we have also included a webpage
+                    // which is just an invite card, which would be linked in the email, including the previously provided details.
+                    });
+               });
+          //admin.auth().getUserByEmail(email)
+          invitedUsers = new Array();
+      }
+  </script>
+</html>
