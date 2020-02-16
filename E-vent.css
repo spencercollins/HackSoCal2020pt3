@@ -1,0 +1,49 @@
+h1{
+  font-size: 50px;
+  color: blue;
+  font-family: "Snell Roundhand, cursive", "Snell Roundhand, cursive", cursive;
+  text-align: center;
+}
+h2{
+  color: black;
+  font-size: 30;
+  text-align: center;
+}
+.dot {
+  height: 500px;
+  width: 500px;
+  background-color: lightgreen;
+  border-radius: 50%;
+  display: inline-block;
+  display: block;
+  margin: 0 auto;
+  border: 15px solid darkgreen ;
+}
+h3{
+  font-size: 30;
+  color: blue;
+}
+body{
+  background-color: #C4DAF9;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  }
+div{
+  background-color: 65C459;
+  border-radius: 50px;
+  padding: 25;
+  width: 500px;
+  height: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -150px;
+  margin-left: -250px;
+  margin: 0 auto;
+}
+}
+head{
+  text-align: center;
+  font-size: 100;
+  background-color: 65C459;
+  padding: 60px;
+}
